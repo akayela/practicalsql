@@ -67,3 +67,116 @@ create table people (
 	person_name varchar(100)
 );
 
+
+/* Use integers where posible. unless your data uses decimals */ 
+
+/* If doing calculations that require accuracy use numeric or its equivalent */ 
+
+/* It is better to choose the bigger number type */ 
+
+/* With whole numbers use bigint */ 
+
+create table if not exists number_data_types (
+  numeric_column numeric(20,5),
+  real_column real,
+  double_column double precision
+);
+
+insert into number_data_types 
+values
+(.7, .7, .7)
+(2.13579, 2.13579, 2.13579),
+(2.1357987654, 2.1357987654, 2.1357987654);
+
+/* Understanding Dates and Times */ 
+
+/* timestamp
+    date 
+    time 
+    interval 
+*/ 
+
+/* timestamp records date and time, include the keywords "with time zone" to ensure the timezone is recorded
+in postgresql you can use timestamptz
+date records just the date 
+time records just the time 
+interval records the length between two time periods
+*/ 
+create table if not exists date_time_types (
+  timestamp_column timestamp with time zone,
+  interval_column interval
+);
+
+insert into date_time_types
+values
+('2024-02-17 22:34 GMT', '2 days'),
+('2024-02-17 01:00 -8', '1 month'),
+('2024-02-17 01:00 Australia/Melbourne', '1 century'),
+(now(), '1 week');
+
+select * from date_time_types;
+
+SELECT 
+timestamp_column,
+interval_column,
+timestamp_column - interval_column as new_date
+from date_time_types;
+
+/* Understanding json and jsonb */ 
+/* json is comprised of key: value pairs and stores the exact copy of the json text*/ 
+/* jsonb stores the text in binary format which allows for indexing and faster processing */ 
+
+{
+"business_name": "Harmony",
+"business_type": "AgriEnterprise",
+"employees": 10,
+"address": {
+"street": "655 kayela street".
+"city": "Chishamiso"
+}
+}
+
+/* Other types */ 
+
+/* Boolean stores either true or false
+    Geometric types including points, lines, circles and other 2d objects
+    text search types for full text search
+    network address types for storing ip or mac addresses
+    universally unique identifier uuid 
+    range types allow you to specify a range of values such as integers or timestamps
+    types for storing binary data
+    Xml data type
+/*
+
+/* Transforming values from one type to another with cast */ 
+
+select timestamp_column, cast(timestamp_column as varchar(10))
+from date_time_types;
+
+select numeric_column,
+cast(numeric_column as integer),
+cast(numeric_column as text)
+from number_data_types;
+
+select cast(char_column as integer) from char_data_types;
+
+/* using Cast shortcut Notation */ 
+select timestamp_column, cast(timestamp_column as varchar(10))
+from date_time_types;
+ 
+/* can be written as */ 
+select timestamp_column::varchr(10)
+from date_time_types;
+
+
+
+
+
+
+
+
+
+
+
+
+
