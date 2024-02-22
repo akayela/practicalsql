@@ -23,3 +23,69 @@ select * from us_counties_pop_est_2019;
 copy us_counties_pop_est_2019
 from '/tmp/us_counties_pop_est_2019.csv'
 with (format csv, header);
+
+select county_name, state_name, area_land
+from us_counties_pop_est_2019
+order by area_land desc
+limit 3;
+
+select county_name, state_name, internal_point_lat, internal_point_lon
+from us_counties_pop_est_2019
+order by internal_point_lon desc
+limit 5;
+
+create table supervisor_salaries (
+	id integer generated always as identity primary key,
+	town text,
+	county text,
+	supervisor text,
+	start_date date,
+	salary numeric(10,2),
+	benefits numeric(10,2)
+);
+
+copy supervisor_salaries (town, supervisor, salary)
+from '/tmp/supervisor_salaries.csv'
+with (format csv, header);
+
+select * from supervisor_salaries;
+
+delete from supervisor_salaries;
+
+copy supervisor_salaries (town, supervisor, salary)
+from '/tmp/supervisor_salaries.csv'
+with (format csv, header)
+where town = 'New Brillig';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
